@@ -1,0 +1,1 @@
+shared_library('vulkan_granite', 'instance.cpp')
