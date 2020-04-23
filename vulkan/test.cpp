@@ -37,5 +37,30 @@ int main(){
     for(const auto& extension : extensions)
         printf("\t- Extension: name: %s spec: %d.%d.%d\n", extension.extensionName, VK_VERSION_MAJOR(extension.specVersion), VK_VERSION_MINOR(extension.specVersion), VK_VERSION_PATCH(extension.specVersion));
 
+    VkApplicationInfo app_info{};
+    app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    app_info.apiVersion = VK_MAKE_VERSION(1, 2, 0);
+
+    VkInstanceCreateInfo instance_info{};
+    instance_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    instance_info.pApplicationInfo = &app_info;
+
+    std::vector<const char*> requested_layers{};
+    requested_layers.push_back("VK_GRANITE_layer_validation");
+
+    std::vector<const char*> requested_extensions{};
+    requested_extensions.push_back("VK_SIGMA_wm_surface");
+
+    instance_info.enabledLayerCount = requested_layers.size();
+    instance_info.ppEnabledLayerNames = requested_layers.data();
+
+    instance_info.enabledExtensionCount = requested_extensions.size();
+    instance_info.ppEnabledExtensionNames = requested_extensions.data();
+
+    VkInstance instance;
+
+    CHECK_FAILURE(vkCreateInstance(&instance_info, NULL, &instance));
+    printf("Created Instance\n");
+
     return 0;
 }

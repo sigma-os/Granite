@@ -27,7 +27,14 @@ typedef enum VkResult {
     VK_TIMEOUT = 2,
     VK_EVENT_SET = 3,
     VK_EVENT_RESET = 4,
-    VK_INCOMPLETE = 5
+    VK_INCOMPLETE = 5,
+    VK_ERROR_OUT_OF_HOST_MEMORY = -1,
+    VK_ERROR_OUT_OF_DEVICE_MEMORY = -2,
+    VK_ERROR_INITIALIZATION_FAILTED = -3,
+    VK_ERROR_DEVICE_LOST = -4,
+    VK_ERROR_MEMORY_MAP_FAILED = -5,
+    VK_ERROR_LAYER_NOT_PRESENT = -7,
+    VK_ERROR_EXTENSION_NOT_PRESENT = -8
 } VkResult;
 
 typedef struct VkOffset2D {
@@ -109,7 +116,7 @@ typedef struct VkInstanceCreateInfo {
     VkStructureType sType;
     const void* pNext;
     VkInstanceCreateFlags flags;
-    const void* pApplicationInfo;
+    const VkApplicationInfo* pApplicationInfo;
     uint32_t enabledLayerCount;
     const char* const* ppEnabledLayerNames;
     uint32_t enabledExtensionCount;
@@ -143,7 +150,8 @@ typedef struct VkAllocationCallbacks {
     PFN_vkInternalFreeNotification pfnInternalFree;
 } VkAllocationCallbacks;
 
-VkResult vkCreateInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks pAllocator, VkInstance* pInstance);
+typedef VkResult (*PFN_vkCreateInstance)(const VkInstanceCreateInfo*, const VkAllocationCallbacks*, VkInstance*);
+VkResult vkCreateInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkInstance* pInstance);
 
 
 #if defined(__cplusplus)

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../vulkan.h"
-#include "../common/print.hpp"
+#include "../../common/print.hpp"
 
 #define STRCAT_4(a, b, c, d) a # b # c # d
 #define STRCAT_3(a, b, c) a # b # c
@@ -21,7 +21,7 @@ namespace {
     class Loader {
         public:
         Loader(){
-            const char* driver = "soft_render_icd/libvulkan_granite.so";//"/usr/lib/libvulkan_granite.so";
+            const char* driver = "vulkan/soft_render_icd/libvulkan_granite.so";//"/usr/lib/libvulkan_granite.so";
             driver_handle = dlopen(driver, RTLD_LAZY);
 
             if(!driver_handle)
@@ -62,6 +62,13 @@ extern "C" {
         static auto* f = (PFN_vkEnumerateInstanceExtensionProperties)global_loader.get_proc_addr("vkEnumerateInstanceExtensionProperties");
         if(f)
             return f(pLayerName, pPropertyCount, pProperties);
+        panic("Couldn't find {:s} in loaded driver", __func__);
+    }
+
+    VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkInstance* pInstance){
+        static auto* f = (PFN_vkCreateInstance)global_loader.get_proc_addr("vkCreateInstance");
+        if(f)
+            return f(pCreateInfo, pAllocator, pInstance);
         panic("Couldn't find {:s} in loaded driver", __func__);
     }
 }
