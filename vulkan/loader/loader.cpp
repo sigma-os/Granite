@@ -1,11 +1,8 @@
 #include <dlfcn.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../vulkan.h"
+#include "../../vulkan-headers/include/vulkan/vulkan.h"
 #include "../../common/print.hpp"
-
-#define STRCAT_4(a, b, c, d) a # b # c # d
-#define STRCAT_3(a, b, c) a # b # c
 
 namespace {
     

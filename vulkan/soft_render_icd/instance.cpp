@@ -1,4 +1,4 @@
-#include "../vulkan.h"
+#include "../../../vulkan-headers/include/vulkan/vulkan.h"
 #include "../../common/print.hpp"
 #include <cassert>
 #include <array>
@@ -9,7 +9,7 @@ namespace granite::vulkan
 {
     struct spec_version {
         spec_version(uint32_t v): major{VK_VERSION_MAJOR(v)}, minor{VK_VERSION_MINOR(v)}, patch{VK_VERSION_PATCH(v)} {}
-        uint16_t major, minor, patch;
+        uint32_t major, minor, patch;
     };
 }
 
@@ -83,7 +83,7 @@ namespace granite::vulkan
     };
 
     std::unordered_map<uint64_t, Instance> instances;
-    VkResult create_instance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkInstance* pInstance){
+    VkResult create_instance(const VkInstanceCreateInfo* pCreateInfo, [[maybe_unused]] const VkAllocationCallbacks* pAllocator, VkInstance* pInstance){
         static auto gen_id = [curr = 0ull]() mutable -> uint64_t {
             return curr++;
         };
@@ -136,7 +136,7 @@ namespace granite::vulkan
         }
 
         auto id = gen_id();
-        pInstance->id = id;
+        *pInstance = (VkInstance)id;
         auto& instance = instances[id];
         instance.version = selected_version;
 
@@ -161,5 +161,3 @@ extern "C" {
         return granite::vulkan::create_instance(pCreateInfo, pAllocator, pInstance);
     }
 }
-
-
