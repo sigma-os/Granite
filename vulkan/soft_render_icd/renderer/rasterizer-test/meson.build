@@ -1,0 +1,1 @@
+executable('rasterizer-test', 'test.cpp')

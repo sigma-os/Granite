@@ -14,4 +14,4 @@
 #spirv_vm = static_library('spriv-vm', spirv_vm_files, include_directories: include_directories)
 
 shared_library('vulkan_granite', 'instance.cpp')
-executable('rasterizer-test', 'renderer/test.cpp')
+subdir('renderer/rasterizer-test')
