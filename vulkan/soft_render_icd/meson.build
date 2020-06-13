@@ -15,3 +15,4 @@
 
 shared_library('vulkan_granite', 'instance.cpp')
 subdir('renderer/rasterizer-test')
+subdir('renderer/spirv')

@@ -1,0 +1,1 @@
+executable('jit', 'jit.cpp', 'main.cpp', cpp_args: ['-std=c++17'])
