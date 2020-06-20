@@ -8,9 +8,6 @@
 
 #include <glm/gtx/vec_swizzle.hpp>
 
-struct Pipeline;
-
-
 class Blender {
     public:
     Blender() = default;
@@ -203,7 +200,6 @@ struct Pipeline {
                 // Write `blended` to FB
             }
 	    });
-
     }
 
     
